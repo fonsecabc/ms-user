@@ -1,6 +1,6 @@
 import {
-    UpdateUserValidatorFactory,
-    UpdateUserServiceFactory,
+  UpdateUserValidatorFactory,
+  UpdateUserServiceFactory,
 } from '../../main/factories'
 import { NotFoundError } from '../../domain/errors'
 import { handleErrorService } from '../../application/services'
@@ -12,17 +12,17 @@ type Request = {
 }
 
 export async function updateUserController(request: Request): Promise<HttpResponse<true | Error>> {
-    try {
-        const isValid = await UpdateUserValidatorFactory.getInstance().make().validate(request)
-        if (isValid instanceof Error) return invalidParams(isValid)
+  try {
+    const isValid = await UpdateUserValidatorFactory.getInstance().make().validate(request)
+    if (isValid instanceof Error) return invalidParams(isValid)
 
-        const isUpdated = await UpdateUserServiceFactory.getInstance().make().perform(request)
-        if (!isUpdated) return notFound(new NotFoundError('user'))
+    const isUpdated = await UpdateUserServiceFactory.getInstance().make().perform(request)
+    if (!isUpdated) return notFound(new NotFoundError('user'))
 
-        return success(isUpdated)
-    } catch (err: any) {
-        const error = await handleErrorService({ err: err.message })
+    return success(isUpdated)
+  } catch (err: any) {
+    const error = await handleErrorService({ err: err.message })
 
-        return badRequest(error)
-    }
+    return badRequest(error)
+  }
 }

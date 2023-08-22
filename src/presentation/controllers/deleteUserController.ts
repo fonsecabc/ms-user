@@ -1,6 +1,6 @@
 import {
-    DeleteUserValidatorFactory,
-    DeleteUserServiceFactory,
+  DeleteUserValidatorFactory,
+  DeleteUserServiceFactory,
 } from '../../main/factories'
 import { NotFoundError } from '../../domain/errors'
 import { handleErrorService } from '../../application/services'
@@ -11,17 +11,17 @@ type Request = {
 }
 
 export async function deleteUserController(request: Request): Promise<HttpResponse<true | Error>> {
-    try {
-        const isValid = await DeleteUserValidatorFactory.getInstance().make().validate(request)
-        if (isValid instanceof Error) return invalidParams(isValid)
+  try {
+    const isValid = await DeleteUserValidatorFactory.getInstance().make().validate(request)
+    if (isValid instanceof Error) return invalidParams(isValid)
 
-        const isDeleted = await DeleteUserServiceFactory.getInstance().make().perform(request)
-        if (!isDeleted) return notFound(new NotFoundError('user'))
+    const isDeleted = await DeleteUserServiceFactory.getInstance().make().perform(request)
+    if (!isDeleted) return notFound(new NotFoundError('user'))
 
-        return success(isDeleted)
-    } catch (err: any) {
-        const error = await handleErrorService({ err: err.message })
+    return success(isDeleted)
+  } catch (err: any) {
+    const error = await handleErrorService({ err: err.message })
 
-        return badRequest(error)
-    }
+    return badRequest(error)
+  }
 }
