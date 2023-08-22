@@ -26,7 +26,7 @@ export async function getUserController(request: Request): Promise<HttpResponse<
 
     return success(users)
   } catch (err: any) {
-    const error = await handleErrorService({ err: err.message })
+    const error = await handleErrorService({ err })
 
     return badRequest(error)
   }

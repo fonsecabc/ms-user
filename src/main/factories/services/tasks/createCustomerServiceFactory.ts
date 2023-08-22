@@ -14,8 +14,8 @@ export class CreateCustomerServiceFactory {
 
   public make(): CreateCustomerService {
     return new CreateCustomerService(
-      variables.paymentProcessorApiKey,
       variables.paymentProcessorApiUrl,
+      variables.paymentProcessorApiKey,
     )
   }
 }

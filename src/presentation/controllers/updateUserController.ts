@@ -21,7 +21,7 @@ export async function updateUserController(request: Request): Promise<HttpRespon
 
     return success(isUpdated)
   } catch (err: any) {
-    const error = await handleErrorService({ err: err.message })
+    const error = await handleErrorService({ err: err })
 
     return badRequest(error)
   }

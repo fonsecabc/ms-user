@@ -20,7 +20,7 @@ export async function deleteUserController(request: Request): Promise<HttpRespon
 
     return success(isDeleted)
   } catch (err: any) {
-    const error = await handleErrorService({ err: err.message })
+    const error = await handleErrorService({ err })
 
     return badRequest(error)
   }

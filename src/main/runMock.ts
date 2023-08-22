@@ -1,11 +1,13 @@
-// import { initializeApp } from './app'
-// import * as controllers from '../presentation/controllers'
+import { initializeApp } from './app'
+import * as controllers from '../presentation/controllers'
 
-// const event = controllers.getUserController
+const event = controllers.createUserController
 
-// initializeApp()
+initializeApp()
 
-// const request = {
-// }
+const request: any = {
+  email: 'caiobragadafonseca@gmail.com',
+  password: '123456',
+}
 
-// event().then(console.log)
+event(request).then(console.log)

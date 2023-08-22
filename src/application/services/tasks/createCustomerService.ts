@@ -9,24 +9,20 @@ export class CreateCustomerService implements CreateCustomerUsecase {
   ) { }
 
   async perform({ email, userUid }: CreateCustomerUsecase.Params): Promise<CreateCustomerUsecase.Response> {
-    try {
-      const response = await axios.request<Customer>({
-        url: `${this.paymentProcessorApiUrl}/customer`,
-        method: 'POST',
-        data: {
-          email,
-          name: `${userUid}-${email}`,
-        },
-        headers: {
-          'accept': 'application/json',
-          'content-type': 'application/json',
-          'authorization': 'Basic ' + this.paymentProcessorApiKey,
-        },
-      })
+    const response = await axios.request<Customer>({
+      url: `${this.paymentProcessorApiUrl}/customers`,
+      method: 'POST',
+      data: {
+        email,
+        name: `${userUid}-${email}`,
+      },
+      headers: {
+        'accept': 'application/json',
+        'content-type': 'application/json',
+        'authorization': 'Basic ' + this.paymentProcessorApiKey,
+      },
+    })
 
-      return response.data
-    } catch (error: any) {
-      throw new Error(error)
-    }
+    return response.data
   }
 }

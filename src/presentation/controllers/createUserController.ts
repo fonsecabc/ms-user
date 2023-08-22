@@ -16,13 +16,11 @@ export async function createUserController(request: Request): Promise<HttpRespon
     const isValid = await CreateUserValidatorFactory.getInstance().make().validate(request)
     if (isValid instanceof Error) return invalidParams(isValid)
 
-    console.log('user')
     const user = await CreateUserServiceFactory.getInstance().make().perform(request)
-    console.log(user)
 
     return success(user)
   } catch (err: any) {
-    const error = await handleErrorService({ err: err.message })
+    const error = await handleErrorService({ err })
 
     return badRequest(error)
   }
