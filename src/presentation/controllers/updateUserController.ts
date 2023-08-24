@@ -7,8 +7,8 @@ import { handleErrorService } from '../../application/services'
 import { HttpResponse, badRequest, invalidParams, notFound, success } from '../helpers'
 
 type Request = {
-    uid: string
-    attrs: object
+  uid: string
+  attrs: object
 }
 
 export async function updateUserController(request: Request): Promise<HttpResponse<true | Error>> {
