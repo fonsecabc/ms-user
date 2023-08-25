@@ -12,6 +12,9 @@ export class CreateUserService implements CreateUserUsecase {
     const customer = await this.createCustomerService.perform({ email, userUid: user.uid })
     await this.userRepository.update({ uid: user.uid, attrs: { customerUid: customer.id } })
 
-    return user
+    return {
+      ...user,
+      customerUid: customer.id,
+    }
   }
 }

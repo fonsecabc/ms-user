@@ -1,3 +1,5 @@
+import { NotFoundError } from '../errors'
+
 export interface UpdateUserUsecase {
     perform(params: UpdateUserUsecase.Params): Promise<UpdateUserUsecase.Response>
 }
@@ -7,5 +9,5 @@ export namespace UpdateUserUsecase {
         attrs: object
     }
 
-    export type Response = boolean
+    export type Response = true | NotFoundError
 }

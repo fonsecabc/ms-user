@@ -1,7 +1,11 @@
 import { cors } from '../config'
-import { Routes, methodNotAllowed, undefinedRoute } from '../../presentation/helpers'
+import { NotFoundError } from '../../domain/errors'
+import { InvalidParamError } from '../../presentation/errors'
+import { handleErrorService } from '../../application/services'
+import { Routes, badRequest, invalidParams, methodNotAllowed, notFound, undefinedRoute } from '../../presentation/helpers'
 
 import { https, Request, Response, HttpsFunction } from 'firebase-functions'
+
 
 export function defineHttpService(routes: Routes[]): HttpsFunction {
   return https.onRequest(
@@ -11,11 +15,19 @@ export function defineHttpService(routes: Routes[]): HttpsFunction {
           const request = req.method === 'GET' ? req.query : req.body
           const route = routes.find((route) => route.path === req.url)
 
-
           if (!route) return undefinedRoute()
           if (route.method !== req.method) return methodNotAllowed()
 
-          return await route.handler(request)
+          try {
+            return await route.handler(request)
+          } catch (error: any) {
+            const err = await handleErrorService({ err: error })
+
+            if (err instanceof NotFoundError) return notFound(err)
+            if (err instanceof InvalidParamError) return invalidParams(err)
+
+            return badRequest(err)
+          }
         }
 
         const response = await getResponse()

@@ -6,4 +6,6 @@ export interface User {
     createdAt: any
     deletedAt?: any
     customerUid?: string
+    subscriptionUid?: string
+    subscriptionStatus?: string
 }

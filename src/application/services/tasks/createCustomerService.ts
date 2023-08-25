@@ -17,11 +17,11 @@ export class CreateCustomerService implements CreateCustomerUsecase {
         name: `${userUid}-${email}`,
         // The following fields are required by the payment processor API but are not used by the application
         // so we can just hardcode them.
-        phones: {home_phone: {country_code: '55', area_code: '31', number: '000000000'}},
+        phones: { home_phone: { country_code: '55', area_code: '31', number: '000000000' } },
         birthdate: '05/03/1984',
         document: '93095135270',
         document_type: 'cpf',
-        type: 'individual'
+        type: 'individual',
       },
       headers: {
         'accept': 'application/json',
