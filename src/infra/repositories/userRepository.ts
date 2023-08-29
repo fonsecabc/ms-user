@@ -48,10 +48,9 @@ export class UserRepository implements UserRepositoryContract {
   }
 
   async delete(params: UserRepositoryContract.Delete.Params): Promise<UserRepositoryContract.Delete.Response> {
-    const { uid } = params
-    const user = await this.get({ uid })
-    if (!user) return false
+    const { user } = params
 
+    const uid = user.uid
     user.deletedAt = new Date()
 
     return Promise.all([

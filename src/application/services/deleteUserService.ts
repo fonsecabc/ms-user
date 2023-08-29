@@ -1,15 +1,23 @@
 import { UserRepositoryContract } from '../contracts'
 import { DeleteUserUsecase } from '../../domain/usecases'
-import { NotFoundError } from '../../domain/errors'
+import { CouldNotError, NotFoundError } from '../../domain/errors'
 
 export class DeleteUserService implements DeleteUserUsecase {
   constructor(
     private readonly userRepository: UserRepositoryContract,
   ) { }
 
-  async perform(params: DeleteUserUsecase.Params): Promise<DeleteUserUsecase.Response> {
-    const isDeleted = await this.userRepository.delete(params)
+  async perform({ uid }: DeleteUserUsecase.Params): Promise<DeleteUserUsecase.Response> {
+    const user = await this.userRepository.get({ uid })
 
-    return isDeleted || new NotFoundError('user')
+    if (!user) return new NotFoundError('user')
+
+    if (user.subscriptionStatus && user.subscriptionStatus === 'active' ) {
+      return new CouldNotError('delete user with active subscription')
+    }
+
+    const isDeleted = await this.userRepository.delete({ user })
+
+    return isDeleted || new CouldNotError('delete user')
   }
 }
