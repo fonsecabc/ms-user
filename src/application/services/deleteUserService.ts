@@ -12,7 +12,7 @@ export class DeleteUserService implements DeleteUserUsecase {
 
     if (!user) return new NotFoundError('user')
 
-    if (user.subscriptionStatus && user.subscriptionStatus === 'active' ) {
+    if (user.subscription && user.subscription.status === 'active' ) {
       return new CouldNotError('delete user with active subscription')
     }
 

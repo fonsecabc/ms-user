@@ -13,7 +13,7 @@ export class UserRepository implements UserRepositoryContract {
   async create(params: UserRepositoryContract.Create.Params): Promise<UserRepositoryContract.Create.Response> {
     const { email, password } = params
     const uid = (await this.auth.createUser({ email, password })).uid
-    const user: User = { uid, email, isActive: false, isEnabled: false, createdAt: new Date() }
+    const user: User = { uid, email, createdAt: new Date() }
 
     return this.db.collection('users').doc(uid).create(user).then(() => user)
   }
@@ -47,8 +47,7 @@ export class UserRepository implements UserRepositoryContract {
     return userList
   }
 
-  async delete(params: UserRepositoryContract.Delete.Params): Promise<UserRepositoryContract.Delete.Response> {
-    const { user } = params
+  async delete({ user }: UserRepositoryContract.Delete.Params): Promise<UserRepositoryContract.Delete.Response> {
 
     const uid = user.uid
     user.deletedAt = new Date()

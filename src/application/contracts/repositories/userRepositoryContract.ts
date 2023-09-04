@@ -50,7 +50,7 @@ export namespace UserRepositoryContract {
 
     export namespace Delete {
         export type Params = {
-            uid: string
+            user: User
         }
 
         export type Response = boolean

@@ -1,9 +1,10 @@
+import { NotFoundError } from '../../domain/errors'
 import {
   DeleteUserValidatorFactory,
   DeleteUserServiceFactory,
 } from '../../main/factories'
 import { InvalidParamError } from '../errors'
-import { HttpResponse, invalidParams, notFound, success } from '../helpers'
+import { HttpResponse, badRequest, invalidParams, notFound, success } from '../helpers'
 
 type Request = {
   uid: string
@@ -14,7 +15,9 @@ export async function deleteUserController(request: Request): Promise<HttpRespon
   if (isValid instanceof InvalidParamError) return invalidParams(isValid)
 
   const isDeleted = await DeleteUserServiceFactory.getInstance().make().perform(request)
-  if (!isDeleted) return notFound(isDeleted)
+  if (isDeleted instanceof NotFoundError) return notFound(isDeleted)
 
-  return success(isDeleted)
+  return isDeleted instanceof Error 
+    ? badRequest(isDeleted) 
+    : success(isDeleted)
 }

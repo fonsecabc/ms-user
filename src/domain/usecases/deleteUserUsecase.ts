@@ -1,5 +1,3 @@
-import { NotFoundError } from '../errors'
-
 export interface DeleteUserUsecase {
     perform(params: DeleteUserUsecase.Params): Promise<DeleteUserUsecase.Response>
 }
@@ -8,5 +6,5 @@ export namespace DeleteUserUsecase {
         uid: string
     }
 
-    export type Response = true | NotFoundError
+    export type Response = true | Error
 }
