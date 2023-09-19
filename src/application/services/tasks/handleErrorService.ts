@@ -6,6 +6,6 @@ export async function handleErrorService({ err }: HandleErrorUsecase.Params): Pr
 
   if (error) return error
 
-  console.log(err)
+  console.log('error:'+ err.message)
   return error || err
 }

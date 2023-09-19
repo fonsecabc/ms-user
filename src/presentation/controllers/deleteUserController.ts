@@ -17,7 +17,7 @@ export async function deleteUserController(request: Request): Promise<HttpRespon
   const isDeleted = await DeleteUserServiceFactory.getInstance().make().perform(request)
   if (isDeleted instanceof NotFoundError) return notFound(isDeleted)
 
-  return isDeleted instanceof Error 
-    ? badRequest(isDeleted) 
-    : success(isDeleted)
+  return isDeleted instanceof Error ?
+    badRequest(isDeleted) :
+    success(isDeleted)
 }

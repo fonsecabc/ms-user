@@ -1,13 +1,12 @@
 import { User } from '../../domain/entities'
-import { QueryOperators } from '../../domain/enums'
 import { UserRepositoryContract } from '../../application/contracts'
 
 import { firestore, auth } from 'firebase-admin'
 
 export class UserRepository implements UserRepositoryContract {
   constructor(
-        private readonly db: firestore.Firestore,
-        private readonly auth: auth.Auth,
+    private readonly db: firestore.Firestore,
+    private readonly auth: auth.Auth,
   ) {}
 
   async create(params: UserRepositoryContract.Create.Params): Promise<UserRepositoryContract.Create.Response> {
@@ -34,21 +33,7 @@ export class UserRepository implements UserRepositoryContract {
     return user
   }
 
-  async getList(): Promise<UserRepositoryContract.GetList.Response> {
-    const userList: User[] = (await this.db.collection('users').get()).docs.map((doc) => doc.data()) as User[]
-
-    return userList
-  }
-
-  async getQuery(params: UserRepositoryContract.GetQuery.Params): Promise<UserRepositoryContract.GetQuery.Response> {
-    const { query = { param: '', operator: QueryOperators.EQUAL, comparison: '' } } = params
-    const userList: User[] = (await this.db.collection('users').where(query.param, query.operator, query.comparison).get()).docs.map((doc) => doc.data()) as User[]
-
-    return userList
-  }
-
   async delete({ user }: UserRepositoryContract.Delete.Params): Promise<UserRepositoryContract.Delete.Response> {
-
     const uid = user.uid
     user.deletedAt = new Date()
 

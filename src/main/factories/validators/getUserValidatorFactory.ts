@@ -18,7 +18,7 @@ export class GetUserValidatorFactory {
 
   public make(): ValidationComposite {
     const validations: ValidatorsInterface[] = []
-    for (const field of ['type']) {
+    for (const field of ['uid']) {
       validations.push(new RequireParamValidation(field))
     }
 

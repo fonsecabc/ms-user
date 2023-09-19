@@ -2,25 +2,22 @@ import {
   GetUserValidatorFactory,
   GetUserServiceFactory,
 } from '../../main/factories'
-import { GetQuery, User } from '../../domain/entities'
-import { GetType } from '../../domain/enums'
+import { User } from '../../domain/entities'
 import { InvalidParamError } from '../errors'
 import { NotFoundError } from '../../domain/errors'
 import { HttpResponse, invalidParams, notFound, success } from '../helpers'
 
 type Request = {
-  uid?: string
-  type: GetType
-  query?: GetQuery
+  uid: string
 }
 
-export async function getUserController(request: Request): Promise<HttpResponse<User | User[] | Error>> {
+export async function getUserController(request: Request): Promise<HttpResponse<User | Error>> {
   const isValid = await GetUserValidatorFactory.getInstance().make().validate(request)
   if (isValid instanceof InvalidParamError) return invalidParams(isValid)
 
-  const users = await GetUserServiceFactory.getInstance().make().perform(request)
-  if (users instanceof InvalidParamError) return invalidParams(users)
-  if (users instanceof NotFoundError) return notFound(users)
+  const user = await GetUserServiceFactory.getInstance().make().perform(request)
+  if (user instanceof InvalidParamError) return invalidParams(user)
+  if (user instanceof NotFoundError) return notFound(user)
 
-  return success(users)
+  return success(user)
 }
