@@ -1,3 +1,4 @@
+import { CryptoAdapterFactory } from '@/main/factories/adapters'
 import { UserRepositoryFactory } from '@/main/factories/repositories'
 import { CreateCustomerServiceFactory } from '@/main/factories/tasks'
 import { CreateUserService } from '@/application/services'
@@ -16,6 +17,7 @@ export class CreateUserServiceFactory {
   public make(): CreateUserService {
     return new CreateUserService(
       UserRepositoryFactory.getInstance().make(),
+      CryptoAdapterFactory.getInstance().make(),
       CreateCustomerServiceFactory.getInstance().make()
     )
   }

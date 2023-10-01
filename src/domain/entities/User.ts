@@ -7,4 +7,5 @@ export interface User {
     customerUid: string
     subscription?: Subscription
     deletedAt?: any
+    hashedPassword?: string
 }

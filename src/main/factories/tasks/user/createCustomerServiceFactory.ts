@@ -1,5 +1,5 @@
 import { variables } from '@/main/config'
-import { CreateCustomerService } from '@/application/tasks'
+import { CreateCustomerTask } from '@/application/tasks'
 
 export class CreateCustomerServiceFactory {
   private static instance: CreateCustomerServiceFactory
@@ -12,8 +12,8 @@ export class CreateCustomerServiceFactory {
     return this.instance
   }
 
-  public make(): CreateCustomerService {
-    return new CreateCustomerService(
+  public make(): CreateCustomerTask {
+    return new CreateCustomerTask(
       variables.paymentProcessorApiUrl,
       variables.paymentProcessorApiKey,
     )

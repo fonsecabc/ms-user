@@ -10,5 +10,5 @@ export namespace CreateUserUsecase {
     password: string
   }
 
-  export type Response = User
+  export type Response = User | Error
 }

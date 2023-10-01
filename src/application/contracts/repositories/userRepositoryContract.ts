@@ -3,6 +3,7 @@ import { User } from '@/domain/entities'
 export interface UserRepositoryContract {
     create(params: UserRepositoryContract.Create.Params): Promise<UserRepositoryContract.Create.Response>
     get(params: UserRepositoryContract.Get.Params): Promise<UserRepositoryContract.Get.Response>
+    getByEmail(params: UserRepositoryContract.GetByEmail.Params): Promise<UserRepositoryContract.GetByEmail.Response>
     update(params: UserRepositoryContract.Update.Params): Promise<UserRepositoryContract.Update.Response>
     delete(params: UserRepositoryContract.Delete.Params): Promise<UserRepositoryContract.Delete.Response>
 }
@@ -10,8 +11,9 @@ export interface UserRepositoryContract {
 export namespace UserRepositoryContract {
     export namespace Create {
         export type Params = {
+            uid: string
             email: string
-            password: string
+            hashedPassword: string
         }
 
         export type Response = User
@@ -29,6 +31,14 @@ export namespace UserRepositoryContract {
     export namespace Get {
         export type Params = {
             uid: string
+        }
+
+        export type Response = User
+    }
+
+    export namespace GetByEmail {
+        export type Params = {
+            email: string
         }
 
         export type Response = User

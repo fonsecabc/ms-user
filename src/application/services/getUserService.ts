@@ -1,5 +1,5 @@
 import { NotFoundError } from '@/domain/errors'
-import { UserRepositoryContract } from '@/application/contracts'
+import { UserRepositoryContract } from '@/application/contracts/repositories'
 import { GetUserUsecase } from '@/domain/usecases'
 
 export class GetUserService implements GetUserUsecase {

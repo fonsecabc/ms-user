@@ -1,5 +1,5 @@
 import { AuthRepository } from '@/infra/repositories'
-import { FirebaseHelperFactory } from './firebaseHelperFactory'
+import { FirebaseHelperFactory } from '@/main/factories/repositories'
 
 export class AuthenticationRepositoryFactory {
   private static instance: AuthenticationRepositoryFactory

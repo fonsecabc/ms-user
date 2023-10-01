@@ -14,8 +14,7 @@ export class UserRepositoryFactory {
 
   public make(): UserRepository {
     return new UserRepository(
-      FirebaseHelperFactory.getInstance().make().db,
-      FirebaseHelperFactory.getInstance().make().auth,
+      FirebaseHelperFactory.getInstance().make().db
     )
   }
 }

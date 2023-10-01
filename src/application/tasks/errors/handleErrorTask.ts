@@ -1,7 +1,7 @@
+import { HandleErrorTreaty } from '@/application/tasks'
 import { ErrorMap } from '@/domain/entities'
-import { HandleErrorUsecase } from '@/domain/usecases'
 
-export async function handleErrorService({ err }: HandleErrorUsecase.Params): Promise<HandleErrorUsecase.Response> {
+export async function handleErrorTask({ err }: HandleErrorTreaty.Params): Promise<HandleErrorTreaty.Response> {
   const error = ErrorMap.get(err.message)
 
   if (error) return error

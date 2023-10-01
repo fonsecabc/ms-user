@@ -1,14 +1,15 @@
+import { CreateCustomerTreaty } from '@/application/tasks'
 import { Customer } from '@/domain/entities'
-import { CreateCustomerUsecase } from '@/domain/usecases'
+
 import axios from 'axios'
 
-export class CreateCustomerService implements CreateCustomerUsecase {
+export class CreateCustomerTask implements CreateCustomerTreaty {
   constructor(
     private readonly paymentProcessorApiUrl: string,
     private readonly paymentProcessorApiKey: string,
   ) { }
 
-  async perform({ email, userUid }: CreateCustomerUsecase.Params): Promise<CreateCustomerUsecase.Response> {
+  async perform({ email, userUid }: CreateCustomerTreaty.Params): Promise<CreateCustomerTreaty.Response> {
     const response = await axios.request<Customer>({
       url: `${this.paymentProcessorApiUrl}/customers`,
       method: 'POST',

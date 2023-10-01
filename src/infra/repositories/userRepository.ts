@@ -1,18 +1,16 @@
 import { User } from '@/domain/entities'
-import { UserRepositoryContract } from '@/application/contracts'
+import { UserRepositoryContract } from '@/application/contracts/repositories'
 
-import { firestore, auth } from 'firebase-admin'
+import { firestore } from 'firebase-admin'
 
 export class UserRepository implements UserRepositoryContract {
   constructor(
-    private readonly db: firestore.Firestore,
-    private readonly auth: auth.Auth,
+    private readonly db: firestore.Firestore
   ) {}
 
   async create(params: UserRepositoryContract.Create.Params): Promise<UserRepositoryContract.Create.Response> {
-    const { email, password } = params
-    const uid = (await this.auth.createUser({ email, password })).uid
-    const user: User = { uid, email, createdAt: new Date(), customerUid: '' }
+    const { uid, email, hashedPassword } = params
+    const user: User = { uid, email, createdAt: new Date(), customerUid: '', hashedPassword }
 
     return this.db.collection('users').doc(uid).create(user).then(() => user)
   }
@@ -33,14 +31,20 @@ export class UserRepository implements UserRepositoryContract {
     return user
   }
 
+  async getByEmail(params: UserRepositoryContract.GetByEmail.Params): Promise<UserRepositoryContract.GetByEmail.Response> {
+    const { email } = params
+    const user: User = (await this.db.collection('users').where('email', '==', email).get()).docs.shift()?.data() as User
+
+    return user
+  }
+
   async delete({ user }: UserRepositoryContract.Delete.Params): Promise<UserRepositoryContract.Delete.Response> {
     const uid = user.uid
     user.deletedAt = new Date()
 
-    return Promise.all([
-      this.db.collection('deleted_users').doc(uid).create(user),
-      this.db.collection('users').doc(uid).delete(),
-      this.auth.deleteUser(uid),
-    ]).then(() => true)
+    await this.db.collection('deleted_users').doc(uid).create(user)
+    await this.db.collection('users').doc(uid).delete()
+
+    return true
   }
 }

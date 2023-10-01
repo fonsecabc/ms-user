@@ -3,6 +3,7 @@ export const variables = {
   firebaseAdminSdk: process.env.CONFIG_FIREBASE_ADMIN_SDK ?? 'undefined',
   paymentProcessorApiUrl: process.env.PAYMENT_PROCESSOR_API_URL ?? 'undefined',
   paymentProcessorApiKey: process.env.PAYMENT_PROCESSOR_API_KEY ?? 'undefined',
+  jwtSecret: process.env.JWT_SECRET ?? 'undefined',
 }
 
 export const testVariables = (): boolean => {

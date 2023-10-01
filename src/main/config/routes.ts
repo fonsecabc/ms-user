@@ -22,5 +22,10 @@ export const routes: Routes[] = [
     method: 'DELETE',
     handler: controllers.deleteUserController,
   },
+  {
+    path: '/login',
+    method: 'POST',
+    handler: controllers.loginUserController,
+  },
 ]
 

@@ -1,4 +1,4 @@
-import { UserRepositoryContract } from '@/application/contracts'
+import { UserRepositoryContract } from '@/application/contracts/repositories'
 import { DeleteUserUsecase } from '@/domain/usecases'
 import { CouldNotError, NotFoundError } from '@/domain/errors'
 
