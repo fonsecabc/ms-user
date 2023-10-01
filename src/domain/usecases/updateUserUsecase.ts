@@ -1,4 +1,4 @@
-import { NotFoundError } from '../errors'
+import { NotFoundError } from '@/domain/errors'
 
 export interface UpdateUserUsecase {
     perform(params: UpdateUserUsecase.Params): Promise<UpdateUserUsecase.Response>

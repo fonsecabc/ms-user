@@ -1,11 +1,10 @@
 import {
   GetUserValidatorFactory,
   GetUserServiceFactory,
-} from '../../main/factories'
-import { User } from '../../domain/entities'
-import { InvalidParamError } from '../errors'
-import { NotFoundError } from '../../domain/errors'
-import { HttpResponse, invalidParams, notFound, success } from '../helpers'
+} from '@/main/factories'
+import { User } from '@/domain/entities'
+import { InvalidParamError, NotFoundError } from '@/domain/errors'
+import { HttpResponse, invalidParams, notFound, success } from '@/presentation/helpers'
 
 type Request = {
   uid: string

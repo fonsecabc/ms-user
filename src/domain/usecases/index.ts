@@ -6,4 +6,5 @@ export * from './deleteUserUsecase'
 export * from './tasks/handleErrorUsecase'
 export * from './tasks/createCustomerUsecase'
 
+export * from './auth/encryptPasswordUsecase'
 export * from './auth/verifyAccessTokenUsecase'

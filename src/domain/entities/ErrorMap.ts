@@ -1,5 +1,5 @@
-import { InvalidParamError } from '../../presentation/errors'
-import { EntityAlreadyExistsError } from '../errors'
+import { InvalidParamError } from '@/domain/errors'
+import { EntityAlreadyExistsError } from '@/domain/errors'
 
 export type ErrorMap = Map<string, Error>
 

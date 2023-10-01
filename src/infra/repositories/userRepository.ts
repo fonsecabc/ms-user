@@ -1,5 +1,5 @@
-import { User } from '../../domain/entities'
-import { UserRepositoryContract } from '../../application/contracts'
+import { User } from '@/domain/entities'
+import { UserRepositoryContract } from '@/application/contracts'
 
 import { firestore, auth } from 'firebase-admin'
 
@@ -12,7 +12,7 @@ export class UserRepository implements UserRepositoryContract {
   async create(params: UserRepositoryContract.Create.Params): Promise<UserRepositoryContract.Create.Response> {
     const { email, password } = params
     const uid = (await this.auth.createUser({ email, password })).uid
-    const user: User = { uid, email, createdAt: new Date() }
+    const user: User = { uid, email, createdAt: new Date(), customerUid: '' }
 
     return this.db.collection('users').doc(uid).create(user).then(() => user)
   }

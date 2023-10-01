@@ -1,8 +1,8 @@
-import { cors } from '../config'
-import { NotFoundError } from '../../domain/errors'
-import { InvalidParamError } from '../../presentation/errors'
-import { handleErrorService } from '../../application/services'
-import { Routes, badRequest, invalidParams, methodNotAllowed, notFound, undefinedRoute } from '../../presentation/helpers'
+import { cors } from '@/main/config'
+import { NotFoundError } from '@/domain/errors'
+import { InvalidParamError } from '@/domain/errors'
+import { handleErrorService } from '@/application/tasks'
+import { Routes, badRequest, invalidParams, methodNotAllowed, notFound, undefinedRoute } from '@/presentation/helpers'
 
 import { https, Request, Response, HttpsFunction } from 'firebase-functions'
 

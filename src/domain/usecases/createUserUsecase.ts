@@ -1,4 +1,4 @@
-import { User } from '../entities'
+import { User } from '@/domain/entities'
 
 export interface CreateUserUsecase {
   perform(params: CreateUserUsecase.Params): Promise<CreateUserUsecase.Response>

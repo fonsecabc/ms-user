@@ -1,5 +1,5 @@
-import { variables } from '../../../config'
-import { CreateCustomerService } from '../../../../application/services'
+import { variables } from '@/main/config'
+import { CreateCustomerService } from '@/application/tasks'
 
 export class CreateCustomerServiceFactory {
   private static instance: CreateCustomerServiceFactory

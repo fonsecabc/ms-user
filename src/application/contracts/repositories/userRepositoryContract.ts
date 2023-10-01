@@ -1,4 +1,4 @@
-import { User } from '../../../domain/entities'
+import { User } from '@/domain/entities'
 
 export interface UserRepositoryContract {
     create(params: UserRepositoryContract.Create.Params): Promise<UserRepositoryContract.Create.Response>

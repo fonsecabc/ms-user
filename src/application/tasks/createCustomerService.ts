@@ -1,5 +1,5 @@
-import { Customer } from '../../../domain/entities'
-import { CreateCustomerUsecase } from '../../../domain/usecases'
+import { Customer } from '@/domain/entities'
+import { CreateCustomerUsecase } from '@/domain/usecases'
 import axios from 'axios'
 
 export class CreateCustomerService implements CreateCustomerUsecase {

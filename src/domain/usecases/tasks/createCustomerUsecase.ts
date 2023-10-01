@@ -1,4 +1,4 @@
-import { Customer } from '../../entities'
+import { Customer } from '@/domain/entities'
 
 export interface CreateCustomerUsecase {
     perform(params: CreateCustomerUsecase.Params): Promise<CreateCustomerUsecase.Response>

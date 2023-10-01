@@ -1,5 +1,5 @@
-import { UserRepositoryFactory } from '../../factories'
-import { DeleteUserService } from '../../../application/services'
+import { UserRepositoryFactory } from '@/main/factories'
+import { DeleteUserService } from '@/application/services'
 
 export class DeleteUserServiceFactory {
   private static instance: DeleteUserServiceFactory

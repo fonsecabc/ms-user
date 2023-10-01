@@ -3,7 +3,7 @@ import {
   ValidationComposite,
   RequireParamValidation,
   EmailValidation,
-} from '../../../infra/validators'
+} from '@/infra/validators'
 
 export class CreateUserValidatorFactory {
   private static instance: CreateUserValidatorFactory

@@ -1,10 +1,10 @@
 import {
   CreateUserValidatorFactory,
   CreateUserServiceFactory,
-} from '../../main/factories'
-import { User } from '../../domain/entities'
-import { InvalidParamError } from '../errors'
-import { HttpResponse, invalidParams, success } from '../helpers'
+} from '@/main/factories'
+import { User } from '@/domain/entities'
+import { InvalidParamError } from '@/domain/errors'
+import { HttpResponse, invalidParams, success } from '@/presentation/helpers'
 
 type Request = {
   email: string

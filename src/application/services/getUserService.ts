@@ -1,6 +1,6 @@
-import { NotFoundError } from '../../domain/errors'
-import { UserRepositoryContract } from '../contracts'
-import { GetUserUsecase } from '../../domain/usecases'
+import { NotFoundError } from '@/domain/errors'
+import { UserRepositoryContract } from '@/application/contracts'
+import { GetUserUsecase } from '@/domain/usecases'
 
 export class GetUserService implements GetUserUsecase {
   constructor(

@@ -1,6 +1,6 @@
-import { UserRepositoryFactory } from '..'
-import { CreateUserService } from '../../../application/services'
-import { CreateCustomerServiceFactory } from './tasks/createCustomerServiceFactory'
+import { UserRepositoryFactory } from '@/main/factories/repositories'
+import { CreateCustomerServiceFactory } from '@/main/factories/tasks'
+import { CreateUserService } from '@/application/services'
 
 export class CreateUserServiceFactory {
   private static instance: CreateUserServiceFactory

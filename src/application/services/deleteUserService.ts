@@ -1,6 +1,6 @@
-import { UserRepositoryContract } from '../contracts'
-import { DeleteUserUsecase } from '../../domain/usecases'
-import { CouldNotError, NotFoundError } from '../../domain/errors'
+import { UserRepositoryContract } from '@/application/contracts'
+import { DeleteUserUsecase } from '@/domain/usecases'
+import { CouldNotError, NotFoundError } from '@/domain/errors'
 
 export class DeleteUserService implements DeleteUserUsecase {
   constructor(

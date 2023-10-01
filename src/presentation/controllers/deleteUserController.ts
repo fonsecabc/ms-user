@@ -1,10 +1,9 @@
-import { NotFoundError } from '../../domain/errors'
+import { NotFoundError, InvalidParamError } from '@/domain/errors'
 import {
   DeleteUserValidatorFactory,
   DeleteUserServiceFactory,
-} from '../../main/factories'
-import { InvalidParamError } from '../errors'
-import { HttpResponse, badRequest, invalidParams, notFound, success } from '../helpers'
+} from '@/main/factories'
+import { HttpResponse, badRequest, invalidParams, notFound, success } from '@/presentation/helpers'
 
 type Request = {
   uid: string

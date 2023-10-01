@@ -4,7 +4,7 @@ export interface User {
     uid: string
     email: string
     createdAt: any
-    customerUid?: string
+    customerUid: string
     subscription?: Subscription
     deletedAt?: any
 }
