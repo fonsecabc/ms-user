@@ -9,7 +9,6 @@ export class DeleteUserService implements DeleteUserUsecase {
 
   async perform({ uid }: DeleteUserUsecase.Params): Promise<DeleteUserUsecase.Response> {
     const user = await this.userRepository.get({ uid })
-
     if (!user) return new NotFoundError('user')
 
     if (user.subscription && user.subscription.status === 'active' ) {

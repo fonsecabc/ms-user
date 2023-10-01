@@ -1,1 +1,1 @@
-export { user } from '@/main'
+export { user } from './main'
