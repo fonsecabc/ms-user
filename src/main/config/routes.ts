@@ -7,21 +7,21 @@ export const routes: Routes[] = [
     method: 'POST',
     handler: controllers.createUserController,
   },
-  {
-    path: '/update',
-    method: 'PUT',
-    handler: controllers.updateUserController,
-  },
+  // {
+  //   path: '/update',
+  //   method: 'PUT',
+  //   handler: controllers.updateUserController,
+  // },
   {
     path: '/get',
     method: 'GET',
     handler: controllers.getUserController,
   },
-  {
-    path: '/delete',
-    method: 'DELETE',
-    handler: controllers.deleteUserController,
-  },
+  // {
+  //   path: '/delete',
+  //   method: 'DELETE',
+  //   handler: controllers.deleteUserController,
+  // },
   {
     path: '/login',
     method: 'POST',
