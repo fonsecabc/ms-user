@@ -1,5 +1,5 @@
 import { UserRepository } from '@/infra/repositories'
-import { FirebaseHelperFactory } from './firebaseHelperFactory'
+import { FirebaseRepositoryFactory } from './firebaseRepositoryFactory'
 
 export class UserRepositoryFactory {
   private static instance: UserRepositoryFactory
@@ -14,7 +14,7 @@ export class UserRepositoryFactory {
 
   public make(): UserRepository {
     return new UserRepository(
-      FirebaseHelperFactory.getInstance().make().db
+      FirebaseRepositoryFactory.getInstance().make().db
     )
   }
 }

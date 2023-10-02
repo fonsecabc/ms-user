@@ -1,12 +1,12 @@
 import { variables } from '@/main/config'
 import { FirebaseRepository } from '@/infra/repositories'
 
-export class FirebaseHelperFactory {
-  private static instance: FirebaseHelperFactory
+export class FirebaseRepositoryFactory {
+  private static instance: FirebaseRepositoryFactory
 
-  public static getInstance(): FirebaseHelperFactory {
+  public static getInstance(): FirebaseRepositoryFactory {
     if (!this.instance) {
-      this.instance = new FirebaseHelperFactory()
+      this.instance = new FirebaseRepositoryFactory()
     }
 
     return this.instance
