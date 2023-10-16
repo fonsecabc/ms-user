@@ -32,14 +32,23 @@ export class UserRepository implements UserRepositoryContract {
     const { uid } = params
     const user: User = (await this.usersRef.doc(uid).get()).data() as User
 
-    return user
+    return user && {
+      ...user,
+      createdAt: user.createdAt.toDate(),
+      deletedAt: user.deletedAt?.toDate()
+    }
   }
 
   async getByEmail(params: UserRepositoryContract.GetByEmail.Params): Promise<UserRepositoryContract.GetByEmail.Response> {
     const { email } = params
     const user: User = (await this.usersRef.where('email', '==', email).get()).docs.shift()?.data() as User
+    
 
-    return user
+    return user && {
+      ...user,
+      createdAt: user.createdAt.toDate(),
+      deletedAt: user.deletedAt?.toDate()
+    }
   }
 
   async delete({ user }: UserRepositoryContract.Delete.Params): Promise<UserRepositoryContract.Delete.Response> {

@@ -7,8 +7,7 @@ const event = controllers.loginUserController
 initializeApp()
 
 const request: any = {
-  email: 'caiobragadafonseca@gmail.com',
-  password: '123456',
+
 }
 
 event(request).then(console.log)

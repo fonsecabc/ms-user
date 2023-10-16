@@ -4,7 +4,7 @@ import {
 } from '@/main/factories'
 import { User } from '@/domain/entities'
 import { InvalidParamError } from '@/domain/errors'
-import { HttpResponse, invalidParams, success } from '@/presentation/helpers'
+import { HttpResponse, badRequest, invalidParams, success } from '@/presentation/helpers'
 
 type Request = {
   email: string
@@ -16,6 +16,7 @@ export async function createUserController(request: Request): Promise<HttpRespon
   if (isValid instanceof InvalidParamError) return invalidParams(isValid)
 
   const user = await CreateUserServiceFactory.getInstance().make().perform(request)
+  if (user instanceof InvalidParamError) return invalidParams(user)
 
-  return success(user)
+  return user instanceof Error ? badRequest(user) : success(user)
 }
