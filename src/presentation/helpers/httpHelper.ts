@@ -1,10 +1,17 @@
-import { MethodNotAllowedError, RouteNotFoundError, UnknownError } from '@/presentation/errors'
+import { MethodNotAllowedError, RouteNotFoundError, UnknownError } from '../errors'
 
 export type HttpMethods = 'POST' | 'GET' | 'PUT' | 'DELETE'
 
 export type HttpResponse<T = any> = {
   statusCode: number
   data: T
+}
+
+export type HttpRequest<T = any> = {
+  body?: T
+  query?: T
+  method: HttpMethods
+  path: string
 }
 
 export type Routes = {
@@ -17,6 +24,13 @@ export function success<T = any>(data: T): HttpResponse<T> {
   return {
     statusCode: 200,
     data,
+  }
+}
+
+export function noContent(): HttpResponse {
+  return {
+    statusCode: 204,
+    data: {},
   }
 }
 

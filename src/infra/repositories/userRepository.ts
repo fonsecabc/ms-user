@@ -35,19 +35,19 @@ export class UserRepository implements UserRepositoryContract {
     return user && {
       ...user,
       createdAt: user.createdAt.toDate(),
-      deletedAt: user.deletedAt?.toDate()
+      deletedAt: user.deletedAt?.toDate(),
     }
   }
 
   async getByEmail(params: UserRepositoryContract.GetByEmail.Params): Promise<UserRepositoryContract.GetByEmail.Response> {
     const { email } = params
     const user: User = (await this.usersRef.where('email', '==', email).get()).docs.shift()?.data() as User
-    
+
 
     return user && {
       ...user,
       createdAt: user.createdAt.toDate(),
-      deletedAt: user.deletedAt?.toDate()
+      deletedAt: user.deletedAt?.toDate(),
     }
   }
 

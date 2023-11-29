@@ -1,13 +1,11 @@
 import './config/moduleAlias'
+import { routes } from '@/main/config'
 import { initializeApp } from '@/main/app'
-import * as controllers from '@/presentation/controllers'
-
-const event = controllers.loginUserController
+import { eventHandler } from '@/main/adapters'
+import * as fromMocks from '@/domain/mocks'
 
 initializeApp()
 
-const request: any = {
+const event = fromMocks.createUserMock as any
 
-}
-
-event(request).then(console.log)
+eventHandler(event, routes).then(console.log)
