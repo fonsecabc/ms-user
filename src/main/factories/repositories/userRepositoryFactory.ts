@@ -1,5 +1,6 @@
+import { databaseConnections } from '@/main/config'
+import { UserTransformerFactory } from '@/main/factories/transformers'
 import { UserRepository } from '@/infra/repositories'
-import { FirebaseRepositoryFactory } from './firebaseRepositoryFactory'
 
 export class UserRepositoryFactory {
   private static instance: UserRepositoryFactory
@@ -14,7 +15,8 @@ export class UserRepositoryFactory {
 
   public make(): UserRepository {
     return new UserRepository(
-      FirebaseRepositoryFactory.getInstance().make().db
+      databaseConnections.sqlite,
+      UserTransformerFactory.getInstance().make()
     )
   }
 }

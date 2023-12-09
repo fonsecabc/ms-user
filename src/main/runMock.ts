@@ -6,6 +6,6 @@ import * as fromMocks from '@/domain/mocks'
 
 initializeApp()
 
-const event = fromMocks.createUserMock as any
+const event = fromMocks.loginUserMock as any
 
 eventHandler(event, routes).then(console.log)

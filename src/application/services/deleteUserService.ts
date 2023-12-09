@@ -15,7 +15,7 @@ export class DeleteUserService implements DeleteUserUsecase {
       return new CouldNotError('delete user with active subscription')
     }
 
-    const isDeleted = await this.userRepository.delete({ user })
+    const isDeleted = await this.userRepository.delete({ uid })
 
     return isDeleted || new CouldNotError('delete user')
   }

@@ -20,7 +20,7 @@ export class CreateUserService implements CreateUserUsecase {
 
     const user = await this.userRepository.create({ uid, email, hashedPassword })
     const customer = await this.createCustomerTask.perform({ email, userUid: user.uid })
-    await this.userRepository.update({ uid: user.uid, attrs: { customerUid: customer.id } })
+    await this.userRepository.update({ uid: user.uid, field: 'customerUid', value: customer.id })
 
     if (user.hashedPassword) delete user.hashedPassword
 

@@ -8,9 +8,14 @@ export const routes: Routes[] = [
     handler: controllers.createUserController,
   },
   // {
-  //   path: '/update',
+  //   path: '/update-email',
   //   method: 'PUT',
-  //   handler: controllers.updateUserController,
+  //   handler: controllers.updateUsersEmailController,
+  // },
+  // {
+  //   path: '/update-password',
+  //   method: 'PUT',
+  //   handler: controllers.updateUsersPasswordController,
   // },
   {
     path: '/get',

@@ -1,62 +1,94 @@
-import { User } from '@/domain/entities'
+import { UserAgreement } from '@/infra/transformers'
+import { DatabaseConnection } from '@/infra/database/connections'
+import { DatabaseError } from '@/application/errors'
 import { UserRepositoryContract } from '@/application/contracts/repositories'
 
-import { firestore } from 'firebase-admin'
-
 export class UserRepository implements UserRepositoryContract {
-  private readonly usersRef: firestore.CollectionReference
-
   constructor(
-    private readonly db: firestore.Firestore
-  ) {
-    this.usersRef = this.db.collection('users')
-  }
+    private readonly db: DatabaseConnection,
+    private readonly userTransformer: UserAgreement
+  ) {}
 
   async create(params: UserRepositoryContract.Create.Params): Promise<UserRepositoryContract.Create.Response> {
     const { uid, email, hashedPassword } = params
-    const user: User = { uid, email, createdAt: new Date(), customerUid: '', hashedPassword }
 
-    return this.usersRef.doc(uid).create(user).then(() => user)
-  }
+    const query = `
+      INSERT INTO users (
+        uid,
+        email,
+        customer_uid,
+        hashed_password,
+        created_at
+      ) VALUES (?, ?, ?, ?, ?)
+    `
 
-  async update(params: UserRepositoryContract.Update.Params): Promise<UserRepositoryContract.Update.Response> {
-    const { uid, attrs } = params
+    const result = await this.db.execute(query, [uid, email, uid, hashedPassword, new Date().toISOString()])
 
     const user = await this.get({ uid })
-    if (!user) return false
+    if (result.rowsAffected === 0 || !user) throw new DatabaseError('Data did not persist!')
 
-    return !!await this.usersRef.doc(uid).update(attrs)
+    return user
   }
 
   async get(params: UserRepositoryContract.Get.Params): Promise<UserRepositoryContract.Get.Response> {
     const { uid } = params
-    const user: User = (await this.usersRef.doc(uid).get()).data() as User
 
-    return user && {
-      ...user,
-      createdAt: user.createdAt.toDate(),
-      deletedAt: user.deletedAt?.toDate(),
-    }
+    const query = `
+      SELECT * FROM users WHERE uid = ?
+    `
+
+    const result = await this.db.execute<UserAgreement.Params>(query, [uid])
+    if (result.rows.length === 0) return undefined
+
+    return this.userTransformer.transform(result.rows[0])
   }
 
   async getByEmail(params: UserRepositoryContract.GetByEmail.Params): Promise<UserRepositoryContract.GetByEmail.Response> {
     const { email } = params
-    const user: User = (await this.usersRef.where('email', '==', email).get()).docs.shift()?.data() as User
 
+    const query = `
+      SELECT * FROM users WHERE email = ?
+    `
 
-    return user && {
-      ...user,
-      createdAt: user.createdAt.toDate(),
-      deletedAt: user.deletedAt?.toDate(),
-    }
+    const result = await this.db.execute<UserAgreement.Params>(query, [email])
+    if (result.rows.length === 0) return undefined
+
+    return this.userTransformer.transform(result.rows[0])
   }
 
-  async delete({ user }: UserRepositoryContract.Delete.Params): Promise<UserRepositoryContract.Delete.Response> {
-    const uid = user.uid
-    user.deletedAt = new Date()
+  async update(params: UserRepositoryContract.Update.Params): Promise<UserRepositoryContract.Update.Response> {
+    const { uid, field, value } = params
 
-    await this.db.collection('deleted_users').doc(uid).create(user)
-    await this.usersRef.doc(uid).delete()
+    const fields = {
+      customerUid: 'customer_uid',
+      email: 'email',
+      hashedPassword: 'hashed_password',
+    }
+
+    const query = `
+      UPDATE users
+      SET ${fields[field]} = ?
+      WHERE uid = ?
+    `
+
+    const result = await this.db.execute(query, [value, uid])
+    if (result.rowsAffected === 0) throw new DatabaseError('Data did not persist!')
+
+    return true
+  }
+
+  async delete(params: UserRepositoryContract.Delete.Params): Promise<UserRepositoryContract.Delete.Response> {
+    const { uid } = params
+
+    const query = `
+      UPDATE users
+      SET deleted_at = ?
+      WHERE uid = ?
+      AND deleted_at IS NULL
+    `
+
+    const result = await this.db.execute(query, [new Date().toISOString(), uid])
+    if (result.rowsAffected === 0) throw new DatabaseError('Data did not persist!')
 
     return true
   }
