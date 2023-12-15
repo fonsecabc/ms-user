@@ -1,5 +1,3 @@
-import { NotFoundError } from '@/domain/errors'
-
 export interface UpdateUsersPasswordUsecase {
   perform(params: UpdateUsersPasswordUsecase.Params): Promise<UpdateUsersPasswordUsecase.Response>
 }
@@ -10,5 +8,5 @@ export namespace UpdateUsersPasswordUsecase {
     password: string
   }
 
-  export type Response = true | NotFoundError
+  export type Response = true | Error
 }

@@ -1,4 +1,5 @@
-import { MethodNotAllowedError, RouteNotFoundError, UnknownError } from '../errors'
+import { Controller } from '@/presentation/controllers'
+import { MethodNotAllowedError, RouteNotFoundError, UnknownError } from '@/presentation/errors'
 
 export type HttpMethods = 'POST' | 'GET' | 'PUT' | 'DELETE'
 
@@ -17,7 +18,7 @@ export type HttpRequest<T = any> = {
 export type Routes = {
   path: string
   method: HttpMethods
-  handler: (request: any) => Promise<HttpResponse>
+  handler: Controller
 }
 
 export function success<T = any>(data: T): HttpResponse<T> {

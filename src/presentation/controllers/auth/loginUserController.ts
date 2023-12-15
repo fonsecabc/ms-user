@@ -1,22 +1,29 @@
-import {
-  LoginUserValidatorFactory,
-  LoginUserServiceFactory,
-} from '@/main/factories'
-import { User } from '@/domain/entities'
-import { InvalidParamError } from '@/domain/errors'
+import { Validation } from '@/presentation/interfaces'
+import { Controller } from '@/presentation/controllers'
 import { HttpResponse, badRequest, invalidParams, success } from '@/presentation/helpers'
+import { LoginUserUsecase } from '@/domain/usecases'
+import { InvalidParamError } from '@/domain/errors'
 
 type Request = {
   email: string
   password: string
 }
+export class LoginUserController extends Controller {
+  constructor(
+    private readonly validation: Validation,
+    private readonly loginUserService: LoginUserUsecase
+  ) {
+    super()
+  }
+  
+  override async perform(request: Request): Promise<HttpResponse> {
+    const isValid = await this.validation.validate(request)
+    if (isValid instanceof Error) return invalidParams(isValid)
 
-export async function loginUserController(request: Request): Promise<HttpResponse<{ accessToken: string, user: User } | Error>> {
-  const isValid = await LoginUserValidatorFactory.getInstance().make().validate(request)
-  if (isValid instanceof InvalidParamError) return invalidParams(isValid)
+    const result = await this.loginUserService.perform(request)
+    if (result instanceof InvalidParamError) return invalidParams(result)
+    if (result instanceof Error) return badRequest(result)
 
-  const response = await LoginUserServiceFactory.getInstance().make().perform(request)
-  if (response instanceof InvalidParamError) return invalidParams(response)
-
-  return response instanceof Error ? badRequest(response) : success(response)
+    return success(result)
+  }
 }

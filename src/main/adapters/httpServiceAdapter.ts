@@ -40,7 +40,7 @@ export async function eventHandler(req: HttpRequest, routes: Routes[]): Promise<
 
   try {
     await initializeApp()
-    return await route.handler(request)
+    return await route.handler.handle(request)
   } catch (err: any) {
     await LoggerAdapterFactory.getInstance().make().logError({ req, err })
 

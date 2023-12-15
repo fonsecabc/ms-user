@@ -2,7 +2,7 @@ import { ValidatorsInterface } from '@/infra/validators'
 
 export class ValidationComposite implements ValidatorsInterface {
   constructor(
-        private readonly validations: ValidatorsInterface[]
+    private readonly validations: ValidatorsInterface[]
   ) { }
 
   async validate(input: any): Promise<true | Error> {

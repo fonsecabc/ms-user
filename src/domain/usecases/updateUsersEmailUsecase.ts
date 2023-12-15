@@ -1,5 +1,3 @@
-import { NotFoundError } from '@/domain/errors'
-
 export interface UpdateUsersEmailUsecase {
   perform(params: UpdateUsersEmailUsecase.Params): Promise<UpdateUsersEmailUsecase.Response>
 }
@@ -9,5 +7,5 @@ export namespace UpdateUsersEmailUsecase {
     email: string
   }
 
-  export type Response = true | NotFoundError
+  export type Response = true | Error
 }

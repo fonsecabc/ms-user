@@ -1,22 +1,29 @@
-import {
-  GetUserValidatorFactory,
-  GetUserServiceFactory,
-} from '@/main/factories'
-import { User } from '@/domain/entities'
+import { Validation } from '@/presentation/interfaces'
+import { Controller } from '@/presentation/controllers'
+import { HttpResponse, badRequest, invalidParams, notFound, success } from '@/presentation/helpers'
+import { GetUserUsecase } from '@/domain/usecases'
 import { InvalidParamError, NotFoundError } from '@/domain/errors'
-import { HttpResponse, invalidParams, notFound, success } from '@/presentation/helpers'
 
 type Request = {
   uid: string
 }
+export class GetUserController extends Controller {
+  constructor(
+    private readonly validation: Validation,
+    private readonly getUserService: GetUserUsecase
+  ) {
+    super()
+  }
+  
+  override async perform(request: Request): Promise<HttpResponse> {
+    const isValid = await this.validation.validate(request)
+    if (isValid instanceof Error) return invalidParams(isValid)
 
-export async function getUserController(request: Request): Promise<HttpResponse<User | Error>> {
-  const isValid = await GetUserValidatorFactory.getInstance().make().validate(request)
-  if (isValid instanceof InvalidParamError) return invalidParams(isValid)
+    const result = await this.getUserService.perform(request)
+    if (result instanceof InvalidParamError) return invalidParams(result)
+    if (result instanceof NotFoundError) return notFound(result)
+    if (result instanceof Error) return badRequest(result)
 
-  const user = await GetUserServiceFactory.getInstance().make().perform(request)
-  if (user instanceof InvalidParamError) return invalidParams(user)
-  if (user instanceof NotFoundError) return notFound(user)
-
-  return success(user)
+    return success(result)
+  }
 }

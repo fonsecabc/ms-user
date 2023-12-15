@@ -1,28 +1,32 @@
-import { HttpResponse, badRequest, invalidParams, notFound, success, unathorized } from '@/presentation/helpers'
-import { NotFoundError, InvalidParamError } from '@/domain/errors'
-import {
-  DeleteUserValidatorFactory,
-  DeleteUserServiceFactory,
-} from '@/main/factories'
-import { VerifyAccessTokenTaskFactory } from '@/main/factories/tasks'
+import { Validation } from '@/presentation/interfaces'
+import { Controller } from '@/presentation/controllers'
+import { HttpResponse, badRequest, invalidParams, success, unathorized } from '@/presentation/helpers'
+import { DeleteUserUsecase } from '@/domain/usecases'
+import { VerifyAccessTokenTreaty } from '@/application/tasks'
 
 type Request = {
   accessToken: string
   uid: string
 }
+export class DeleteUserController extends Controller {
+  constructor(
+    private readonly validation: Validation,
+    private readonly verifyAcessTokenTask: VerifyAccessTokenTreaty,
+    private readonly deleteUserService: DeleteUserUsecase
+  ) {
+    super()
+  }
+  
+  override async perform(request: Request): Promise<HttpResponse> {
+    const isValid = await this.validation.validate(request)
+    if (isValid instanceof Error) return invalidParams(isValid)
 
-export async function deleteUserController(request: Request): Promise<HttpResponse<true | Error>> {
-  const isValid = await DeleteUserValidatorFactory.getInstance().make().validate(request)
-  if (isValid instanceof InvalidParamError) return invalidParams(isValid)
+    const isTokenValid = await this.verifyAcessTokenTask.perform(request)
+    if (isTokenValid instanceof Error) return unathorized(isTokenValid)
 
+    const result = await this.deleteUserService.perform(request)
+    if (result instanceof Error) return badRequest(result)
 
-  const isTokenValid = await VerifyAccessTokenTaskFactory.getInstance().make().perform(request)
-  if (isTokenValid instanceof InvalidParamError) return unathorized(isTokenValid)
-
-  const isDeleted = await DeleteUserServiceFactory.getInstance().make().perform(request)
-  if (isDeleted instanceof NotFoundError) return notFound(isDeleted)
-
-  return isDeleted instanceof Error ?
-    badRequest(isDeleted) :
-    success(isDeleted)
+    return success(result)
+  }
 }
