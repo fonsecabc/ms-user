@@ -27,4 +27,5 @@ Each layer has a specific purpose and clear rules for communication:
 ### **To run the project:**
 
 1. Install the depencies using *npm install*
-2. Setup env variables at .env.
+2. Setup env variables at .env
+3. Run the mocks with using *npm run dev*
