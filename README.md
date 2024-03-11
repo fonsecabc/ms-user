@@ -23,3 +23,8 @@ Each layer has a specific purpose and clear rules for communication:
 - The **infrastructure layer** contains the **repositories** and other elements that interact with external resources. It implements the contracts defined in the application layer.
 - The **presentation layer** deals with interaction with the external world, preparing requests and responses. It communicates with the **application layer**.
 - The **main layer** contains factories that create instances of objects and define configurations. It is the entry point of the system and controls the initialization.
+
+### **To run the project:**
+
+1. Install the depencies using *npm install*
+2. Setup env variables at .env.
